@@ -6,5 +6,5 @@ MIRIAN MAGDALENA SARANGO ZAMBRANO
 
 ESTUDIANTE DEL SEGUNDO NIVEL "A"
 
-PROGRAMACION ORIENTADA A OBJETOS, Mendiante este repositorio se visualizará mis tareas.
+
 
