@@ -1,2 +1,1 @@
-print("Hola Mi amor")
 
