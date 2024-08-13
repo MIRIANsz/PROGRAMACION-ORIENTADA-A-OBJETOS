@@ -85,7 +85,7 @@ def mostrar_menu():
     print("6. Salir")
 
 
-def main():
+def main(id_producto=None):
     inventario = Inventario()
 
     # Productos predefinidos
