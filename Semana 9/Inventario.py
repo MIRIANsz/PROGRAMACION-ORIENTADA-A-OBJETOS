@@ -124,10 +124,10 @@ def main():
         opcion = input("Seleccione una opción: ")
 
         if opcion == '1':
-            id_producto = input("Ingrese ID del producto: ")
-            nombre = input("Ingrese nombre del producto: ")
-            cantidad = int(input("Ingrese cantidad del producto: "))
-            precio = float(input("Ingrese precio del producto: "))
+            id_producto = input("Ingresar ID del producto: ")
+            nombre = input("Ingresar nombre del producto: ")
+            cantidad = int(input("Ingresar cantidad del producto: "))
+            precio = float(input("Ingresar precio del producto: "))
             producto = Producto(id_producto, nombre, cantidad, precio)
             inventario.añadir_producto(producto)
 
@@ -136,13 +136,13 @@ def main():
             inventario.eliminar_producto(id_producto)
 
         elif opcion == '3':
-            id_producto = input("Ingrese ID del producto a actualizar: ")
-            cantidad = input("Ingrese nueva cantidad (dejar en blanco si no desea cambiar): ")
-            precio = input("Ingrese nuevo precio (dejar en blanco si no desea cambiar): ")
+            id_producto = input("Ingresar ID del producto a actualizar: ")
+            cantidad = input("Ingresar nueva cantidad (dejar en blanco si no desea cambiar): ")
+            precio = input("Ingresar nuevo precio (dejar en blanco si no desea cambiar): ")
             inventario.actualizar_producto(id_producto, cantidad=int(cantidad) if cantidad else None, precio=float(precio) if precio else None)
 
         elif opcion == '4':
-            nombre = input("Ingrese nombre del producto a buscar: ")
+            nombre = input("Ingresar nombre del producto a buscar: ")
             inventario.buscar_producto(nombre)
 
         elif opcion == '5':
