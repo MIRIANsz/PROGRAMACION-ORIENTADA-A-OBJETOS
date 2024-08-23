@@ -8,7 +8,6 @@ class Producto:
     # Getters
     def get_id(self):
         return self.id_producto
-
     def get_nombre(self):
         return self.nombre
 
@@ -30,22 +29,53 @@ class Producto:
 
     # Representación del objeto como cadena
     def __str__(self):
-        return f'ID: {self.id_producto}, Nombre: {self.nombre}, Cantidad: {self.cantidad}, Precio: ${self.precio:.2f}'
+        return f'{self.id_producto},{self.nombre},{self.cantidad},{self.precio:.2f}'
+
+    @classmethod
+    def from_string(cls, producto_str):
+        id_producto, nombre, cantidad, precio = producto_str.strip().split(',')
+        return cls(id_producto, nombre, int(cantidad), float(precio))
 
 
 class Inventario:
-    def __init__(self):
-        self.productos = []
+    def __init__(self, archivo_inventario='inventario.txt'):
+        self.archivo_inventario = archivo_inventario
+        self.productos = self.cargar_inventario()
+
+    def cargar_inventario(self):
+        productos = []
+        try:
+            with open(self.archivo_inventario, 'r') as archivo:
+                for linea in archivo:
+                    producto = Producto.from_string(linea)
+                    productos.append(producto)
+            print("Inventario cargado exitosamente.")
+        except FileNotFoundError:
+            print(f"Archivo {self.archivo_inventario} no encontrado. Se creará uno nuevo.")
+        except PermissionError:
+            print(f"No se tiene permiso para leer el archivo {self.archivo_inventario}.")
+        return productos
+
+    def guardar_inventario(self):
+        try:
+            with open(self.archivo_inventario, 'w') as archivo:
+                for producto in self.productos:
+                    archivo.write(str(producto) + '\n')
+            print(f"Inventario guardado exitosamente en {self.archivo_inventario}.")
+        except PermissionError:
+            print(f"No se tiene permiso para escribir en el archivo {self.archivo_inventario}.")
 
     def añadir_producto(self, producto):
         if any(p.get_id() == producto.get_id() for p in self.productos):
             print(f"Error: El ID {producto.get_id()} ya existe.")
         else:
             self.productos.append(producto)
+            self.guardar_inventario()
             print(f"Producto {producto.get_nombre()} añadido exitosamente.")
 
     def eliminar_producto(self, id_producto):
         self.productos = [p for p in self.productos if p.get_id() != id_producto]
+        self.guardar_inventario()
         print(f"Producto con ID {id_producto} eliminado exitosamente.")
 
     def actualizar_producto(self, id_producto, cantidad=None, precio=None):
@@ -55,6 +85,7 @@ class Inventario:
                     producto.set_cantidad(cantidad)
                 if precio is not None:
                     producto.set_precio(precio)
+                self.guardar_inventario()
                 print(f"Producto con ID {id_producto} actualizado exitosamente.")
                 return
         print(f"Error: No se encontró el producto con ID {id_producto}.")
@@ -85,16 +116,8 @@ def mostrar_menu():
     print("6. Salir")
 
 
-def main(id_producto=None):
+def main():
     inventario = Inventario()
-
-    # Productos predefinidos
-    producto1 = Producto("001", "Aceite Palma de Oro 1L", 50, 1.15)
-    producto2 = Producto("002", "Arroz San Andres 25L", 300, 15.50)
-
-    # Añadiendo productos predefinidos al inventario
-    inventario.añadir_producto(producto1)
-    inventario.añadir_producto(producto2)
 
     while True:
         mostrar_menu()
@@ -135,3 +158,5 @@ def main(id_producto=None):
 
 if __name__ == "__main__":
     main()
+
+
